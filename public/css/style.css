@@ -12001,6 +12001,9 @@ textarea.form-control-lg {
   font-weight: 500;
   line-height: 1.25rem;
 }
+.section-One-Border .section-one-img-Zero {
+  width: 9rem;
+}
 .section-One-Border .section-One-img {
   color: #FFF;
   text-align: center;
@@ -12051,6 +12054,9 @@ body {
   font-style: normal;
   font-weight: 500;
   line-height: 1.25rem;
+}
+.section-two .section-two-img-One {
+  width: 9rem;
 }
 .section-two .section-One-img {
   color: #FFF;
@@ -12104,6 +12110,9 @@ body {
   font-weight: 500;
   line-height: 1.25rem;
 }
+.section-three .section-three-img-Two {
+  width: 9rem;
+}
 .section-three .section-three-img {
   color: #FFF;
   text-align: center;
@@ -12147,7 +12156,13 @@ body {
   font-weight: 500;
   line-height: 1.25rem;
 }
-.section-four .section-four-img {
+
+.section-four-img-Three {
+  width: 9rem;
+  text-shadow: 5px 10px #FFF;
+}
+
+.section-four-img {
   color: #FFF;
   text-align: center;
   font-family: PingFang SC;
@@ -12156,7 +12171,8 @@ body {
   font-weight: 500;
   line-height: 1.25rem;
 }
-.section-four .section-four-degree-Three {
+
+.section-four-degree-Three {
   color: #FFF;
   font-family: PingFang SC;
   font-size: 0.875rem;
@@ -12197,6 +12213,7 @@ body {
   font-style: normal;
   font-weight: 500;
   line-height: 1.25rem; /* 125% */
+  width: auto;
 }
 
 .week-weather-container-two {
@@ -12214,6 +12231,7 @@ body {
   font-style: normal;
   font-weight: 500;
   line-height: 1.25rem; /* 125% */
+  width: auto;
 }
 
 .week-weather-container-three {
@@ -12231,6 +12249,7 @@ body {
   font-style: normal;
   font-weight: 500;
   line-height: 1.25rem; /* 125% */
+  width: auto;
 }
 
 .week-weather-container-four {
@@ -12248,6 +12267,7 @@ body {
   font-style: normal;
   font-weight: 500;
   line-height: 1.25rem; /* 125% */
+  width: auto;
 }
 
 .week-weather-container-five {
@@ -12265,6 +12285,7 @@ body {
   font-style: normal;
   font-weight: 500;
   line-height: 1.25rem; /* 125% */
+  width: auto;
 }
 
 .week-weather-container-six {
@@ -12282,6 +12303,7 @@ body {
   font-style: normal;
   font-weight: 500;
   line-height: 1.25rem; /* 125% */
+  width: auto;
 }
 
 .week-weather-container-seven {
@@ -12299,4 +12321,5 @@ body {
   font-style: normal;
   font-weight: 500;
   line-height: 1.25rem; /* 125% */
+  width: auto;
 }

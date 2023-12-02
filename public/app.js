@@ -10,8 +10,10 @@
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _module_ApiCity__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./module/ApiCity */ "./src/module/ApiCity.js");
-/* harmony import */ var _module_addIconFunction__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./module/addIconFunction */ "./src/module/addIconFunction.js");
+/* harmony import */ var _module_addIcon__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./module/addIcon */ "./src/module/addIcon.js");
 /* harmony import */ var _module_toggleClass__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./module/toggleClass */ "./src/module/toggleClass.js");
+/* harmony import */ var _module_inputFromUser__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./module/inputFromUser */ "./src/module/inputFromUser.js");
+
 
 
 
@@ -28,90 +30,207 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var _addIcon__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./addIcon */ "./src/module/addIcon.js");
+
+// import addIcon from "./addIcon";
+
 var ApiCity = function ApiCity() {
-  //picking all h6 elements
-  var h6El = document.querySelectorAll('h6');
-  //picking all p elements with hours
-  var pTimeEl = document.querySelectorAll('.time');
+  // #####################################
+  // Section list for cities #############
+  //  defaults settings & params
+  var sectionList = document.querySelectorAll('.weatherForCity');
+  var cities = ['Kaunas', 'Vilnius', 'Alytus', 'Klaipeda'];
   //picking all p for temperature
   var pDegreeEl = document.querySelectorAll('.degree');
-  var miestas = ['Kaunas', 'Vilnius', 'Alytus', 'Klaipeda'];
   var _loop = function _loop(i) {
-    var vietos = fetch("https://api.meteo.lt/v1/places/".concat(miestas[i], "/forecasts/long-term")).then(function (response) {
+    fetch("https://api.meteo.lt/v1/places/".concat(cities[i], "/forecasts/long-term")).then(function (response) {
       return response.json();
     }).then(function (data) {
       console.log(data);
-      //Getting the city
-      h6El[i].textContent = data.place.name;
-      //geting full date
-      var today = new Date();
-      //correct year and month
-      var month = today.getMonth() + 1;
-      var year = today.getFullYear();
-      var date = today.getDate();
-      //geting the correct hour and minutes
-      var hours = addZero(today.getHours());
-      var minutes = addZero(today.getMinutes());
-      var seconds = addZero(today.getSeconds());
-      var current_time = "".concat(hours, ":").concat(minutes);
-      var current_date = "".concat(year, "-").concat(month, "-").concat(date, " ").concat(hours);
+      // console.log("apiCityUTC: ", data.forecastTimestamps);
+      var inforByHour = data.forecastTimestamps;
+      var firstInfo = inforByHour[0];
+      pDegreeEl[i].innerText = data.forecastTimestamps[i].airTemperature;
 
-      //adding to inner p time text of current hour and minutes
-      pTimeEl[i].textContent = current_time;
+      // Set information abput city
+      sectionList[i].getElementsByTagName("h6")[0].innerText = data.place.name;
+      var timeData = firstInfo.forecastTimeUtc.split(" ");
+      sectionList[i].getElementsByClassName("time")[0].innerText = timeData[1].slice(0, 5);
 
-      //adding to inner p degree text of current hour and minutes
-      var temp = data.forecastTimestamps[i].airTemperature;
-      pDegreeEl[i].textContent = temp;
+      //set text for weather
+      var description = sectionList[i].getElementsByClassName("description")[0];
+
+      // set icon for weather all position
+      var iconImg = sectionList[i].getElementsByTagName("img")[0];
+      (0,_addIcon__WEBPACK_IMPORTED_MODULE_0__["default"])(firstInfo.conditionCode, iconImg, description);
     });
   };
-  for (var i = 0; i < miestas.length; i++) {
+  for (var i = 0; i < cities.length; i++) {
     _loop(i);
   }
 };
-function addZero(num) {
-  return num < 10 ? "0".concat(num) : num;
-}
 ApiCity();
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ApiCity);
 
 /***/ }),
 
-/***/ "./src/module/addIconFunction.js":
-/*!***************************************!*\
-  !*** ./src/module/addIconFunction.js ***!
-  \***************************************/
+/***/ "./src/module/addIcon.js":
+/*!*******************************!*\
+  !*** ./src/module/addIcon.js ***!
+  \*******************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _ApiCity__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ApiCity */ "./src/module/ApiCity.js");
+// import ApiCity from "./ApiCity";
 
-var imgTagEl = document.querySelectorAll(' img');
-imgTagEl[0].src = "css/icons/clear.png";
-console.log(imgTagEl.src);
-function getWeatherIcon(conditionCode) {
-  for (var i = 0; i < imgTagEl.length; i++) {
-    if (conditionCode === "clear") {
-      var clearIcon = imgTagEl.innerHTML = "⛅";
-      return clearIcon;
-    } else if (conditionCode === "isolated-clouds") {
-      return "⛅";
-    } else if (conditionCode === "scattered-clouds" || conditionCode === "overcast" || conditionCode === "cloudy") {
-      return "☁️";
-    } else if (conditionCode === "light-rain" || conditionCode === "moderate-rain" || conditionCode === "heavy-rain") {
-      return "🌧️";
-    } else if (conditionCode === "sleet" || conditionCode === "light-snow" || conditionCode === "moderate-snow" || conditionCode === "heavy-snow") {
-      return "🌨️";
-    } else if (conditionCode === "fog") {
-      return "🌫️";
-    } else {
-      return "❓";
+//let imgTagEl = document.querySelectorAll('img');
+
+function getWeatherIcon(conditionCode, imgTagEl, description) {
+  if (conditionCode == "clear") {
+    var clearImg = imgTagEl.src = "css/icons/clear.png";
+    description.innerText = 'Giedra';
+  } else if (conditionCode == "cloudy-with-sunny-intervals" || conditionCode == "mist") {
+    var SunnyIntImg = imgTagEl.src = "css/icons/mist.png";
+    description.innerText = 'Debesuota su pragiedruliais';
+  } else if (conditionCode == "variable-cloudiness") {
+    var variableCloud = imgTagEl.src = "css/icons/mist.png";
+    description.innerText = "Nepastoviai debesuota";
+  } else if (conditionCode == "isolated-clouds" || conditionCode == "partly-cloudy") {
+    var cloudsImg = imgTagEl.src = "css/icons/clouds.png";
+    description.innerText = 'Mažai debesuota';
+  } else if (conditionCode == "scattered-clouds" || conditionCode == "overcast" || conditionCode == "cloudy") {
+    var cloudsOneImg = imgTagEl.src = "css/icons/clouds.png";
+    description.innerText = 'Debesuota';
+  } else if (conditionCode == "light-rain" || conditionCode == "moderate-rain" || conditionCode == "heavy-rain" || conditionCode == "rain" || conditionCode == "freezing-rain") {
+    var drizzleImg = imgTagEl.src = "css/icons/drizzle.png";
+    description.innerText = "Numatomas lietus";
+  } else if (conditionCode == "rain-showers " || conditionCode == "light-rain-at-times " || conditionCode == "rain-at-times") {
+    var _drizzleImg = imgTagEl.src = "css/icons/rain.png";
+    description.innerText = "Protarpiais nedidelis lietus";
+  } else if (conditionCode == "sleet" || conditionCode == "sleet-at-times" || conditionCode == "sleet-showers" || conditionCode == "light-sleet ") {
+    var snowImg = imgTagEl.src = "css/icons/drizzle.png";
+    description.innerText = "Šlapdriba";
+  } else if (conditionCode == "thunder" || conditionCode == "isolated-thunderstorms" || conditionCode == "thunderstorms ") {
+    var _snowImg = imgTagEl.src = "css/icons/isolated-thunderstorms.png";
+    description.innerText = "Perkūnija";
+  } else if (conditionCode == "fog") {
+    var fogImg = imgTagEl.src = "css/icons/drizzle.png";
+    description.innerText = 'Rūkas';
+  } else if (conditionCode == "snow" || conditionCode == "light-snow" || conditionCode == "snow-showers " || conditionCode == "snow-at-times" || conditionCode == "light-snow-at-times" || conditionCode == "snowstorm") {
+    var _snowImg2 = imgTagEl.src = "css/icons/snow.png";
+    description.innerText = 'Sniegas';
+  } else if (conditionCode == "null") {
+    var _snowImg3 = imgTagEl.src = "css/icons/snow.png";
+    description.innerText = 'Oro sąlygos nenustatytos';
+  } else {
+    return "Duomenys dingo:❓";
+  }
+}
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (getWeatherIcon);
+
+/***/ }),
+
+/***/ "./src/module/inputFromUser.js":
+/*!*************************************!*\
+  !*** ./src/module/inputFromUser.js ***!
+  \*************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _addIcon__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./addIcon */ "./src/module/addIcon.js");
+
+
+//Creating and picking my variables
+
+var inputElm = document.querySelector('.form-control');
+var sectionTwoElm = document.querySelector('#show');
+var headingCity = document.querySelector('h3');
+var sectionWeek = document.querySelectorAll('.weatherForWeek');
+var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+//Getting input from the user
+inputElm.addEventListener('keyup', setQuery);
+var optionElm = document.getElementsByTagName('option');
+function setQuery(event) {
+  if (inputElm.value.length > 5) {
+    for (var a = 0; a < optionElm.length; a++) {
+      if (inputElm.value === optionElm[a].value) {
+        sectionTwoElm.classList.remove('d-none');
+        //sending input to function for data retrieving
+        getResults(inputElm.value);
+        break;
+      } else {
+        sectionTwoElm.classList.add('d-none');
+      }
     }
   }
 }
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (getWeatherIcon());
+
+//using input to display in html data
+function getResults(query) {
+  var pDegreeElem = document.querySelectorAll('.degreeOne');
+  var hDayOfTheWeek = document.querySelectorAll('.day');
+  var _loop = function _loop(y) {
+    fetch("https://api.meteo.lt/v1/places/".concat(query, "/forecasts/long-term")).then(function (response) {
+      return response.json();
+    }).then(function (dataOne) {
+      //let changeCity =  headingCity.innerText =;
+      console.log(dataOne);
+      headingCity.innerText = dataOne.place.code.toUpperCase();
+
+      // extracting data for seven days
+      var forecast = dataOne.forecastTimestamps;
+      var uniqueDays = new Set();
+      var temp = [];
+      var weekDay = [];
+      var conditionForDay = [];
+      console.log(conditionForDay);
+      forecast.forEach(function (day) {
+        var date = new Date(day.forecastTimeUtc);
+
+        //sets day of the week
+        var dayOfweek = date.toLocaleDateString('lt-LT', {
+          weekday: 'long'
+        });
+
+        //filters days by date that duplicates
+        if (uniqueDays.has(dayOfweek)) {
+          return;
+        }
+
+        //adding to list for filtering latter
+        uniqueDays.add(dayOfweek);
+        var temperature = day.airTemperature;
+        temp.push(temperature);
+        weekDay.push(dayOfweek);
+        var conditionForWeek = day.conditionCode;
+        conditionForDay.push(conditionForWeek);
+      });
+
+      //  ---------------------------------------
+
+      // sending to html
+      pDegreeElem[y].innerText = temp[y];
+      hDayOfTheWeek[y].innerText = weekDay[y];
+
+      // set icon for weather for all position
+      var iconImgOne = sectionWeek[y].getElementsByTagName("img")[0];
+      var test = (0,_addIcon__WEBPACK_IMPORTED_MODULE_0__["default"])(conditionForDay[y], iconImgOne, [,]); //skiping last paramater 
+      console.log(conditionForDay);
+    });
+  };
+  for (var y = 0; y < days.length; y++) {
+    _loop(y);
+  }
+}
+setQuery();
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (setQuery);
 
 /***/ }),
 
@@ -127,12 +246,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 var searchEl = document.querySelector('input');
 var sectionOneElm = document.querySelector('#hide');
+var sectionWeekOne = document.querySelector('#show');
 var displayToggle = function displayToggle() {
   searchEl.addEventListener('input', function () {
     if (searchEl.value === '') {
       sectionOneElm.style.display = 'inline';
+      sectionWeekOne.style.display = 'd-none';
     } else if (searchEl.value.length == 0) {
       sectionOneElm.style.display = 'inline';
+      sectionWeekOne.style.display = 'd-none';
     } else {
       sectionOneElm.style.display = 'none';
     }
@@ -140,8 +262,6 @@ var displayToggle = function displayToggle() {
 };
 displayToggle();
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (displayToggle);
-var imgone = document.querySelectorAll('img');
-imgone[0].src = "https://icons8.com/icon/cWfpk9mCJWJm/summer";
 
 /***/ }),
 

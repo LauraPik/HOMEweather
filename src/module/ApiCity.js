@@ -1,52 +1,51 @@
+import getWeatherIcon from "./addIcon";
+// import addIcon from "./addIcon";
+
+
+
 const ApiCity = () =>{
-    //picking all h6 elements
-    let h6El =document.querySelectorAll('h6');
-    //picking all p elements with hours
-    let pTimeEl = document.querySelectorAll('.time')
+   
+    // #####################################
+    // Section list for cities #############
+    //  defaults settings & params
+    let sectionList = document.querySelectorAll('.weatherForCity');
+
+    let cities = ['Kaunas', 'Vilnius', 'Alytus', 'Klaipeda'];
     //picking all p for temperature
     let pDegreeEl = document.querySelectorAll('.degree');
-    
-    
 
-    let miestas = ['Kaunas', 'Vilnius', 'Alytus', 'Klaipeda']
+    for(let i = 0; i < cities.length; i++){
+        
+        fetch(`https://api.meteo.lt/v1/places/${cities[i]}/forecasts/long-term`)
+            .then(response => response.json() )
+            .then(data =>{ 
+                console.log(data)
+                // console.log("apiCityUTC: ", data.forecastTimestamps);
+                let inforByHour = data.forecastTimestamps;
+                let firstInfo = inforByHour[0];
 
-    for(let i=0; i< miestas.length; i++){
-    const vietos = fetch(`https://api.meteo.lt/v1/places/${miestas[i]}/forecasts/long-term`)
-    .then(response => response.json() )
-    .then(data =>{ 
-        console.log(data)
-    //Getting the city
-    h6El[i].textContent = data.place.name;
-    //geting full date
-    let today = new Date();
-    //correct year and month
-    let month = today.getMonth()+1;
-    let year = today.getFullYear();
-    let date = today.getDate();
-     //geting the correct hour and minutes
-    let hours = addZero(today.getHours());
-    let minutes = addZero(today.getMinutes());
-    let seconds = addZero(today.getSeconds());
-    let current_time = `${hours}:${minutes}`
-    let current_date =`${year}-${month}-${date} ${hours}`
-   
-    
-    //adding to inner p time text of current hour and minutes
-    pTimeEl[i].textContent = current_time;
 
-    //adding to inner p degree text of current hour and minutes
-    const temp = data.forecastTimestamps[i].airTemperature
-    pDegreeEl[i].textContent = temp;
+                pDegreeEl[i].innerText = data.forecastTimestamps[i].airTemperature;
 
-    
-    
-})
+                // Set information abput city
+                sectionList[i].getElementsByTagName("h6")[0].innerText = data.place.name;
+
+                let timeData = (firstInfo.forecastTimeUtc).split(" ");
+                sectionList[i].getElementsByClassName("time")[0].innerText = timeData[1].slice(0, 5);
+               
+
+               //set text for weather
+               let description = sectionList[i].getElementsByClassName("description")[0];
+              
+
+                // set icon for weather all position
+                let iconImg = sectionList[i].getElementsByTagName("img")[0];
+                getWeatherIcon(firstInfo.conditionCode, iconImg, description);
+
+            }
+        )
     }
-}
-
-
-function addZero(num){
-    return num < 10 ? `0${num}`:num;
+  
 }
 
 

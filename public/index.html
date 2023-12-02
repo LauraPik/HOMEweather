@@ -27,77 +27,78 @@
 <main>
     <section id="hide">
         <div class="row section-row flex-column justify-content-center align-items-center flex-md-row justify-content-sm-between">
-            <div class="section-One-Border col-7 col-sm-2">
+            <div class="section-One-Border col-7 col-sm-2 weatherForCity">
                 <div class="section-one-city d-flex justify-content-between">
                 <h6 class="section-one-city-Zero">Kaunas</h6>
                 <p class="section-one-time-Zero time">09:30</p>
                 </div>
-                <p class="d-flex flex-column section-One-img weather"><img class="section-one-img-Zero" src="./css/icons/clouds.png" alt="weather icon">Debesuota</p>
+                <div><img class="section-one-img-Zero" src="" alt="weather icon"></div><p class="d-flex flex-column section-One-img weather description">Debesuota</p>
                 <p class="section-One-degree degree">-5&deg</p>
             </div>
-            <div class="col col-7 col-sm-2 section-two">
+            <div class="col col-7 col-sm-2 section-two weatherForCity">
                 <div class="d-flex justify-content-between section-two-city">
                     <h6 class="section-two-city-One">Kaunas</h6>
                     <p class="section-two-time-One time">09:30</p>
                   </div>
-                  <p class="d-flex flex-column section-two-img weather"><img  class="section-two-img-One" src="./css/icons/clouds.png"alt="weather icon">Debesuota</p>
+                  <div class="text-center"><img  class="section-two-img-One" src="./css/icons/mist.png" alt="weather icon"></div><p class="d-flex flex-column section-two-img weather description">Debesuota</p>
                     <p class="section-two-degree-One degree">-5&deg</p>
             </div>
-            <div class="col-7 col-sm-2 section-three">
+            <div class="col-7 col-sm-2 section-three weatherForCity">
                 <div class="d-flex justify-content-between section-three-city">
                     <h6 class="section-three-city-Two">Kaunas</h6>
                     <p class="section-three-time-Two time">09:30</p>
                   </div>
-                  <p class="d-flex flex-column section-three-img weather"><img src="./css/icons/clouds.png" class="section-three-img-Two" alt="weather icon">Debesuota</p>
+                  <div class="text-center"><img src="./css/icons/clouds.png" class="section-three-img-Two" alt="weather icon"></div><p class="d-flex flex-column section-three-img weather description">Debesuota</p>
                     <p class="section-three-degree-Two degree">-5&deg</p>
               </div>
-            <div class="col-7 col-sm-2 section-four">
+            <div class="col-7 col-sm-2 section-four weatherForCity">
                 <div class="d-flex justify-content-between section-four-city">
                     <h6 class="section-four-city-Three">Kaunas</h6>
                     <p class="section-four-time-Three time">09:30</p>
                   </div>
-                  <p class="d-flex flex-column section-four-img weather"><img src="./css/icons/clouds.png" class="section-four-img-Three" alt="weather icon">Debesuota</p>
-                    <p class="section-four-degree-Three degree">-5&deg</p>
+                  <div class="text-center"><img src="./css/icons/clouds.png" class="section-four-img-Three" alt="weather icon"></div><p class="d-flex flex-column section-four-img weather description">Debesuota</p>
+                  <p class="section-four-degree-Three degree">-5&deg</p>
             </div>
           </div>
     </section>
-    <section class ="week-weather d-none">
+    <section id='show' class ="week-weather d-none">
       <div class="row week-weather-row">
-        <div class="d-flex week-weather-container-one">
+        <h3>Kaunas</h3>
+        <div class="d-flex week-weather-container-one  weatherForWeek">
           <h5 class="week-weather-day-one day">Today</h5>
           <div class="week-weather-img-bg">
-          <img class="week-weather-img-one" src="./css/icons/clear.png" alt="icon">
+          <img class="week-weather-img-one img" src="./css/icons/clear.png" alt="icon">
         </div>
-          <p class="week-weather-degree-one degreeOne">-5&deg</p>
+          <p class="week-weather-degree-one degreeOne ">-5&deg</p>
         </div>
-        <div class="d-flex week-weather-container-two">
+        <div class="d-flex week-weather-container-two weatherForWeek">
           <h5 class="week-weather-day-two day">Today</h5>
-          <img class="week-weather-img-two" src="./css/icons/clear.png" alt="icon">
+          <img class="week-weather-img-two img" src="./css/icons/clear.png" alt="icon">
           <p class="week-weather-degree-two degreeOne">-5&deg</p>
         </div>
-        <div class="d-flex week-weather-container-three">
+        <div class="d-flex week-weather-container-three weatherForWeek">
           <h5 class="week-weather-day-three day">Today</h5>
-          <img class="week-weather-img-three" src="./css/icons/clear.png" alt="icon">
+          <img class="week-weather-img-three img" src="./css/icons/clear.png" alt="icon">
           <p class="week-weather-degree-three degreeOne">-5&deg</p>
         </div>
-        <div class="d-flex week-weather-container-four">
+        <div class="d-flex week-weather-container-four weatherForWeek">
           <h5 class="week-weather-day-four day">Today</h5>
-          <img class="week-weather-img-four" src="./css/icons/clear.png" alt="icon">
+          <img class="week-weather-img-four img" src="./css/icons/clear.png" alt="icon">
           <p class="week-weather-degree-four degreeOne">-5&deg</p>
         </div>
-        <div class="d-flex week-weather-container-five">
+        <div class="d-flex week-weather-container-five weatherForWeek">
           <h5 class="week-weather-day-five day">Today</h5>
-          <img class="week-weather-img-five" src="./css/icons/clear.png" alt="icon">
+          <img class="week-weather-img-five img" src="./css/icons/clear.png" alt="icon">
           <p class="week-weather-degree-five degreeOne">-5&deg</p>
         </div>
-        <div class="d-flex week-weather-container-six">
+        <div class="d-flex week-weather-container-six weatherForWeek">
           <h5 class="week-weather-day-six day">Today</h5>
-          <img class="week-weather-img-six" src="./css/icons/clear.png" alt="icon">
+          <img class="week-weather-img-six img" src="./css/icons/clear.png" alt="icon">
           <p class="week-weather-degree-six degreeOne">-5&deg</p>
         </div>
-        <div class="d-flex week-weather-container-seven">
+        <div class="d-flex week-weather-container-seven weatherForWeek">
           <h5 class="week-weather-day-seven day">Today</h5>
-          <img class="week-weather-img-seven" src="./css/icons/clear.png" alt="icon">
+          <img class="week-weather-img-seven img" src="./css/icons/clear.png" alt="icon">
           <p class="week-weather-degree-seven degreeOne">-5&deg</p>
         </div>
       </div>
